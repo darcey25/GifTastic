@@ -5,7 +5,7 @@ var buttonNames = ["Manchester United", "Barcelona FC", "Bayern Munich", "Chelse
 
 var apiKey = "YDdMBW7x2F4Dw9O0BB3nLAq2rf45KO9H";
 var searchGif;
-var queryURL = "http://api.giphy.com/v1/gifs/search?q="+searchGif+"&api_key="+apiKey+"&limit=10"
+var queryURL = "https://api.giphy.com/v1/gifs/search?q="+searchGif+"&api_key="+apiKey+"&limit=10"
 
 function createsButtons() {
 	// clears buttons div for when new button is added
