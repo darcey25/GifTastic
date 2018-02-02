@@ -1,0 +1,36 @@
+ * {
+ 	box-sizing: border-box;
+ }
+ h1, p {
+	text-align: center;
+}
+.btn {
+	margin: 5px;
+}
+.gifContainer {
+	display: inline-block;
+	margin: 10px;
+}
+#buttonsContainer {
+	float: left;
+	width: 70%;
+	margin-bottom: 30px;
+	margin-left: 20px;
+}
+#formContainer {
+	float: left;
+	width: 20%;
+	padding-left: 80px;
+	margin-bottom: 30px;
+}
+
+#soccer-clubs {
+	clear: both;
+	border-top: solid 1px silver;
+	padding-top: 20px;
+}
+#addClub {
+	margin-top: 10px;
+}
+
+
