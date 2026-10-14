@@ -3,7 +3,23 @@
 var buttonNames = ["Manchester United", "Barcelona FC", "Bayern Munich", "Chelsea FC", "Atletico Madrid", "Real Madrid", "Juventus", 
 "Liverpool", "Arsenal", "PSG", "Manchester City", "Inter Milan", "AC Milan"];
 
-var apiKey = "YDdMBW7x2F4Dw9O0BB3nLAq2rf45KO9H";
+// The Giphy API key is no longer stored in the repo. Each visitor enters their own
+// key (free at https://developers.giphy.com), and it is kept in their browser only.
+var KEY_STORAGE = "giphyApiKey";
+var apiKey = "";
+try { apiKey = localStorage.getItem(KEY_STORAGE) || ""; } catch (e) {}
+
+function showKeyForm() {
+	$("#key-form").toggle(!apiKey);
+}
+
+$("#key-form").on("submit", function(event) {
+	event.preventDefault();
+	apiKey = $("#giphy-key").val().trim();
+	try { localStorage.setItem(KEY_STORAGE, apiKey); } catch (e) {}
+	$("#giphy-key").val("");
+	showKeyForm();
+});
 var searchGif;
 
 function createsButtons() {
@@ -30,6 +46,7 @@ $("#addClub").on("click", function(event) {
 	event.preventDefault();
 
 	var userInput = $("#club-input").val().trim();
+	if (!userInput) return;
 
 	buttonNames.push(userInput);
 	$("#club-input").val("");
@@ -38,7 +55,11 @@ $("#addClub").on("click", function(event) {
 })
 
 function generateGifs() {
-	var queryURL = "https://api.giphy.com/v1/gifs/search?q="+searchGif+"&api_key="+apiKey+"&limit=10"
+	if (!apiKey) {
+		showKeyForm();
+		return;
+	}
+	var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + encodeURIComponent(searchGif) + "&api_key=" + encodeURIComponent(apiKey) + "&limit=10";
 	 $.ajax({
       "url": queryURL,
       "method": "GET"
@@ -55,12 +76,12 @@ function generateGifs() {
       	var rating = results[j].rating.toUpperCase();
       	console.log(rating);
       	var gifs = $("<div class=gifContainer>");
-      	var gifImage = $("<img class='gif' src='"+stillGif+"' id="+[j]+"'>");
+      	var gifImage = $("<img class='gif'>").attr({ src: stillGif, id: j });
       	gifImage.attr("data-state", "still");
       	gifImage.attr("data-still", stillGif);
       	gifImage.attr("data-animate", animateGif);
       	gifs.append(gifImage);
-      	gifs.append("<p>Rating: "+rating+"</p>");
+      	gifs.append($("<p>").text("Rating: " + rating));
       	$("#soccer-clubs").append(gifs);
       }
 
@@ -93,3 +114,4 @@ $(document).on("click", ".gif", function(event) {
 
 
 createsButtons();
+showKeyForm();
